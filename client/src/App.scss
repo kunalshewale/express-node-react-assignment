@@ -1,0 +1,160 @@
+$body-bg-color: #222d3c;
+$grid-area-bg-color: #f9fafc;
+$text-color-light: #777777;
+$text-color-dark: #333333;
+$modal-overlay-bg-color: 0, 0, 0;
+
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 3.125rem 1fr;
+  grid-template-areas: "applicationTitle" "main";
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.grid--noscroll {
+  overflow-y: hidden;
+}
+
+.application-title-bar {
+  grid-area: applicationTitle;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: $body-bg-color;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  padding: 0 1rem;
+  border-bottom: 1px solid rgba(119, 119, 119, 0.25);
+  color: $grid-area-bg-color;
+}
+
+.application-title {
+  text-decoration: none;
+  color: inherit;
+
+  &:visited,
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.hamburger-menu {
+  position: fixed;
+  padding: 0.813rem;
+  right: 0.375rem;
+  top: 0.25rem;
+  background-color: #3c4d5e;
+  border-radius: 50%;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.sidenav {
+  position: fixed;
+  top: 3.125rem;
+  grid-area: sidenav;
+  height: 100%;
+  overflow-y: auto;
+  background-color: $grid-area-bg-color;
+  color: $text-color-light;
+  width: 15rem;
+  transform: translateX(-18.313rem);
+  transition: transform 0.5s ease-in-out;
+  border-right: 1px solid rgba(119, 119, 119, 0.25);
+  border-bottom-left-radius: 1rem;
+  z-index: 2;
+}
+
+.sidenav-close-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  height: 1.5rem;
+}
+
+.sidenav-close-button {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  visibility: visible;
+  color: $text-color-light;
+  cursor: pointer;
+}
+
+.sidenav--active {
+  transform: translateX(0);
+}
+
+.main {
+  grid-area: main;
+  background-color: $grid-area-bg-color;
+  color: $text-color-light;
+  padding: 1rem;
+  border-bottom-left-radius: 1rem;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.selectCountryContainer {
+  min-width: 10rem !important;
+}
+
+.navList {
+  width: 15rem;
+  padding: 0;
+  margin: 0;
+  background-color: var(--grid-area-bg-color);
+  list-style-type: none;
+  margin-top: 0.625rem;
+}
+
+.navList-heading {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: var(--text-color-light);
+  text-transform: capitalize;
+  font-size: 0.833rem;
+  border-bottom: 1px solid rgba(119, 119, 119, 0.25);
+  cursor: pointer;
+}
+
+.navList-heading > i {
+  color: var(--text-color-dark);
+  font-size: 1rem;
+  width: 1rem;
+}
+
+.navList-heading-titleContainer {
+  width: calc(100% - 2rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.navList-heading-title {
+  text-decoration: none;
+  width: 100%;
+  color: inherit;
+
+  &:visited,
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+@media only screen and (min-width: 48rem) {
+  .main {
+    border-bottom-left-radius: 0;
+  }
+}

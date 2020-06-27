@@ -13,7 +13,13 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 const url = "mongodb://localhost:27017/coviddb";
 
 mongoose.Promise = global.Promise;
-mongoose.connect(url);
+mongoose.connect(url, {
+  poolSize: 10,
+  bufferMaxEntries: 0,
+  reconnectTries: 5000,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const CovidDataDb = mongoose.connection;
 
@@ -63,7 +69,6 @@ const createEntriesInCollection = (entries, callBack) => {
 
     if (bulkInsertOps.length > 0) {
       CovidData.bulkWrite(bulkInsertOps).then(() => {
-        console.log("Added the data!!!");
         CovidDataDb.close();
       });
     }
@@ -77,8 +82,8 @@ const getDataFromCollection = (callback) => {
       if (err) {
         console.error("There is error in fetching data >>> ", err);
       } else {
-        CovidDataDb.close();
         callback(covidData);
+        CovidDataDb.close();
       }
     });
   });
