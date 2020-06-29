@@ -36,7 +36,7 @@ const CovidLineChart = ({ chartData = INITIAL_CHART_DATA }) => {
         <LineChart
           data={chartData}
           margin={{
-            top: 60,
+            top: 30,
             right: 60,
             left: 60,
             bottom: 5,

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./App.scss";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import InputLabel from "@material-ui/core/InputLabel";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import Header from "./components/Header";
@@ -114,7 +113,7 @@ class App extends Component {
                   Select Country
                 </InputLabel>
                 <NativeSelect
-                  native
+                  native="true"
                   value={this.state.selectedCountry}
                   onChange={(e) => {
                     this.handleSelectChange(e.target.value);
@@ -138,20 +137,18 @@ class App extends Component {
             <Switch>
               <Route exact path="/">
                 <CovidLineChart
-                  data={this.state.data}
                   selectedCountry={this.state.selectedCountry}
                   chartData={this.chartData}
                 />
               </Route>
               <Route path="/lineChart">
                 <CovidLineChart
-                  data={this.state.data}
                   selectedCountry={this.state.selectedCountry}
                   chartData={this.chartData}
                 />
               </Route>
               <Route path="/dataTable">
-                <CovidDataTable />
+                <CovidDataTable data={this.chartData} />
               </Route>
             </Switch>
           </main>
