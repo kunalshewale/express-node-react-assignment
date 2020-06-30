@@ -45,7 +45,6 @@ CovidDataDb.once("open", () => {
         latestData += d;
       });
       getRes.on("end", () => {
-        //res.send(JSON.parse(latestData));
         createEntriesInCollection(JSON.parse(latestData).data);
       });
     })
@@ -68,17 +67,15 @@ const createEntriesInCollection = (entries, callBack) => {
     });
 
     if (bulkInsertOps.length > 0) {
-      CovidData.bulkWrite(bulkInsertOps).then(() => {
-        CovidDataDb.close();
-      });
+      CovidData.bulkWrite(bulkInsertOps).then(() => {});
     }
   });
 };
 
-const getDataFromCollection = (callback) => {
+const getDataFromCollection = (id, callback) => {
   mongoose.connect(url);
   CovidDataDb.once("open", () => {
-    CovidData.find({}, (err, covidData) => {
+    CovidData.find({ countrycode: id }, (err, covidData) => {
       if (err) {
         console.error("There is error in fetching data >>> ", err);
       } else {
@@ -89,9 +86,26 @@ const getDataFromCollection = (callback) => {
   });
 };
 
+const getCountryCodesFromCollection = (callback) => {
+  mongoose.connect(url);
+  CovidDataDb.once("open", () => {
+    CovidData.collection.distinct("countrycode").then((res) => {
+      callback(res);
+      CovidDataDb.close();
+    });
+  });
+};
+
 // create a GET route
-app.get("/getCovidData", (req, res) => {
-  getDataFromCollection((data) => {
+app.get("/getCountryCodes", (req, res) => {
+  getCountryCodesFromCollection((countryCodes) => {
+    res.send({ countryCodes });
+  });
+});
+
+app.get("/getCovidDataForCountry/:id", (req, res) => {
+  const id = req.params.id;
+  getDataFromCollection(id, (data) => {
     res.send({ data });
   });
 });

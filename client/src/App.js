@@ -24,7 +24,6 @@ const NAVIGATION_ITEMS = [
 
 const getChartData = (covidData, selectedCountry) =>
   covidData
-    .filter((dataItem) => dataItem.countrycode === selectedCountry)
     .map((item) => ({
       ...item,
       name: item.date,
@@ -53,24 +52,34 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // Call our fetch function below once the component mounts
-    this.callBackendAPI()
+    this.getCountryCodes()
       .then((res) => {
-        this.countryCodes = getCountryCodes(res.data);
-        this.chartData = getChartData(
-          res.data,
-          this.state.selectedCountry || "US"
-        );
+        this.countryCodes = res.countryCodes;
+      })
+      .catch((err) => console.log(err));
+
+    this.getCountryWiseData()
+      .then((res) => {
         this.setState({
-          data: res.data,
+          data: getChartData(res.data),
           selectedCountry: this.state.selectedCountry || "US",
         });
       })
       .catch((err) => console.log(err));
   }
-  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
-  callBackendAPI = async () => {
-    const response = await fetch("/getCovidData");
+
+  getCountryWiseData = async (countryCode = "US") => {
+    const response = await fetch(`/getCovidDataForCountry/${countryCode}`);
+    const body = await response.json();
+
+    if (response.status !== 200) {
+      throw Error(body.message);
+    }
+    return body;
+  };
+
+  getCountryCodes = async () => {
+    const response = await fetch("/getCountryCodes");
     const body = await response.json();
 
     if (response.status !== 200) {
@@ -86,10 +95,14 @@ class App extends Component {
   }
 
   handleSelectChange(selectedValue) {
-    this.chartData = getChartData(this.state.data, selectedValue);
-    this.setState({
-      selectedCountry: selectedValue,
-    });
+    this.getCountryWiseData(selectedValue)
+      .then((res) => {
+        this.setState({
+          data: getChartData(res.data),
+          selectedCountry: selectedValue,
+        });
+      })
+      .catch((err) => console.log(err));
   }
 
   render() {
@@ -138,17 +151,17 @@ class App extends Component {
               <Route exact path="/">
                 <CovidLineChart
                   selectedCountry={this.state.selectedCountry}
-                  chartData={this.chartData}
+                  chartData={this.state.data}
                 />
               </Route>
               <Route path="/lineChart">
                 <CovidLineChart
                   selectedCountry={this.state.selectedCountry}
-                  chartData={this.chartData}
+                  chartData={this.state.data}
                 />
               </Route>
               <Route path="/dataTable">
-                <CovidDataTable data={this.chartData} />
+                <CovidDataTable data={this.state.data} />
               </Route>
             </Switch>
           </main>
