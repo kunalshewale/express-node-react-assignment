@@ -33,9 +33,6 @@ const getChartData = (covidData, selectedCountry) =>
     }))
     .sort((a, b) => new Date(a.name) - new Date(b.name));
 
-const getCountryCodes = (covidData) => {
-  return [...new Set(covidData.map((dataItem) => dataItem.countrycode).sort())];
-};
 class App extends Component {
   constructor(props) {
     super(props);
@@ -114,6 +111,7 @@ class App extends Component {
           }`}
         >
           <Header showHideSideBar={this.showHideSideBar} />
+          {this.state.displaySideNav && <div className="sidenavOverlay" />}
           <SideNav
             showHideSideBar={this.showHideSideBar}
             displaySideNav={this.state.displaySideNav}

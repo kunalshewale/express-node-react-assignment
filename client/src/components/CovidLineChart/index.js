@@ -20,9 +20,8 @@ const CustomizedAxisTick = ({ x, y, payload }) => {
         fill="#666"
         transform="rotate(-35)"
       >
-        {" "}
-        {payload.value}{" "}
-      </text>{" "}
+        {payload.value}
+      </text>
     </g>
   );
 };
@@ -32,7 +31,7 @@ const INITIAL_CHART_DATA = [];
 const CovidLineChart = ({ chartData = INITIAL_CHART_DATA }) => {
   return !!chartData.length ? (
     <React.Fragment>
-      <ResponsiveContainer>
+      <ResponsiveContainer height="90%">
         <LineChart
           data={chartData}
           margin={{
@@ -45,9 +44,9 @@ const CovidLineChart = ({ chartData = INITIAL_CHART_DATA }) => {
           <XAxis dataKey="name" height={60} tick={<CustomizedAxisTick />} />{" "}
           <YAxis interval={0} /> <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="cases" stroke="#8884d8" />
-          <Line type="monotone" dataKey="deaths" stroke="#82ca9d" />
-          <Line type="monotone" dataKey="recovered" stroke="#33fc9d" />
+          <Line type="monotone" dataKey="cases" stroke="#0000FF" />
+          <Line type="monotone" dataKey="deaths" stroke="#FF0000" />
+          <Line type="monotone" dataKey="recovered" stroke="#00FF00" />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>

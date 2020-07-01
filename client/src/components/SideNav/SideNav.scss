@@ -1,0 +1,88 @@
+@import "../../variables";
+
+.sidenav {
+  position: fixed;
+  top: 3.125rem;
+  grid-area: sidenav;
+  height: 100%;
+  overflow-y: auto;
+  background-color: $grid-area-bg-color;
+  color: $text-color-light;
+  width: 20rem;
+  transform: translateX(-23.313rem);
+  transition: transform 0.5s ease-in-out;
+  border-right: 1px solid rgba(119, 119, 119, 0.25);
+  border-bottom-left-radius: 1rem;
+  z-index: 2;
+}
+
+.sidenav-close-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  height: 1.5rem;
+}
+
+.sidenav-close-button {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  visibility: visible;
+  color: $text-color-light;
+  cursor: pointer;
+}
+
+.sidenav--active {
+  transform: translateX(0);
+}
+
+.navList {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: $grid-area-bg-color;
+  list-style-type: none;
+  margin-top: 0.625rem;
+}
+
+.navList-heading {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: $text-color-light;
+  text-transform: capitalize;
+  font-size: 0.833rem;
+  border-bottom: 1px solid rgba(119, 119, 119, 0.25);
+  cursor: pointer;
+}
+
+.navList-heading > i {
+  color: $text-color-dark;
+  font-size: 1rem;
+  width: 1rem;
+}
+
+.navList-heading-titleContainer {
+  width: calc(100% - 2rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.navList-heading-title {
+  text-decoration: none;
+  width: 100%;
+  color: inherit;
+  font-weight: bold;
+
+  &:visited,
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+}
